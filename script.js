@@ -47,18 +47,25 @@ function revealCell(row, col) {
     if (gameOver || board[row][col].revealed) return;
     board[row][col].revealed = true;
     const cellElement = document.getElementById(`cell-${row}-${col}`);
-    cellElement.classList.add('revealed');
-
+    
     if (board[row][col].mine) {
         cellElement.classList.add('mine');
-        alert("Игра окончена! Вы попали на мину.");
+        cellElement.textContent = '💣'; // Отображаем бомбу
+        cellElement.style.backgroundColor = 'red'; // Окрашиваем клетку в красный
+        setTimeout(() => {
+            alert("Игра окончена!");
+            document.getElementById('restart-button').style.display = 'block'; // Показываем кнопку "Играть снова"
+        }, 500); // Задержка перед показом алерта
         gameOver = true;
         return;
     }
 
+    cellElement.classList.add('revealed');
     if (board[row][col].adjacentMines > 0) {
         cellElement.textContent = board[row][col].adjacentMines;
-    } else {
+        cellElement.classList.add(`number-${board[row][col].adjacentMines}`); // Добавляем класс для цвета
+    }
+    else {
         // Если нет соседних мин, открываем соседние клетки
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
@@ -89,8 +96,12 @@ function createGameBoard() {
 
 document.getElementById('restart-button').addEventListener('click', () => {
     gameOver = false;
+    document.getElementById('restart-button').style.display = 'none'; // Скрываем кнопку "Играть снова"
     createGameBoard();
 });
+
+// Скрываем кнопку "Играть снова" при загрузке
+document.getElementById('restart-button').style.display = 'none';
 
 // Инициализация игры
 createGameBoard();
