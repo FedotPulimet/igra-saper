@@ -1,7 +1,13 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: lightblue;
+}
+
+h1 {
+    font-size: 40px;
+    background-color: chocolate;
+    font-family: 'Courier New', Courier;
 }
 
 #game-container {
